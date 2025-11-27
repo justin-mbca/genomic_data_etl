@@ -8,6 +8,7 @@ This project demonstrates a free-tier AWS genomics data engineering pipeline usi
 flowchart TD
 	UPL["Researchers<br>Lab Technicians<br>Bioinformaticians"]
 	UI["Web UI / CLI / API"]
+	SENG["<b>Senior Genomic Data Engineer</b><br>Designs, reviews, optimizes<br>all infrastructure & code"]
 
 	subgraph S3["S3 Buckets"]
 		RAW["raw-genomics-bucket<br>(VCF, CRAM)"]
@@ -44,6 +45,19 @@ flowchart TD
 	UI <-->|"Check Status / QC"| META
 	UI <-->|"Check Status / QC"| QC
 	PARTNERS <-->|"Download Delivery Data"| DELIVERY
+
+	%% Senior Genomic Data Engineer Interactions
+	SENG -.-> RAW
+	SENG -.-> PROCESSED
+	SENG -.-> DELIVERY
+	SENG -.-> VALIDATE
+	SENG -.-> PROCESS
+	SENG -.-> METRICS
+	SENG -.-> METAUPD
+	SENG -.-> META
+	SENG -.-> JOBS
+	SENG -.-> QC
+	SENG -.-> WORKFLOW
 
 	RAW --> VALIDATE
 	VALIDATE --> META
