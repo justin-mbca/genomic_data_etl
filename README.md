@@ -1,3 +1,24 @@
+#
+# Project Progress Log
+#
+## What’s Done
+- Flask backend for genomics pipeline data (local mock, REST API)
+- React frontend for dashboard (fetches and displays pipeline data)
+- Jupyter notebook demo for local development and visualization
+- Local development environment and virtualenv kernel for notebook
+- Git repository initialized and code pushed
+
+## To-Do List
+- [ ] Enforce security best practices in CDK stacks
+- [ ] Implement lifecycle policies and cost controls in CDK
+- [ ] Complete and modularize AWS CDK stacks for S3, Lambda, Step Functions, DynamoDB, IAM, networking
+- [ ] Add more pipeline stages and data types as needed
+- [ ] Enhance dashboard with more features/visualizations
+- [ ] Write more tests and CI/CD improvements
+
+---
+
+_Last updated: 2025-11-26_
 # Senior Genomic Data Engineer Implementation Checklist
 
 - [ ] **Infrastructure as Code**
