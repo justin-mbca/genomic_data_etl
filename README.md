@@ -6,39 +6,44 @@ This project demonstrates a free-tier AWS genomics data engineering pipeline usi
 
 ```mermaid
 flowchart TD
-	USER["User / Researcher"]
+	UPL["Researchers<br>Lab Technicians<br>Bioinformaticians"]
 	UI["Web UI / CLI / API"]
 
 	subgraph S3["S3 Buckets"]
-		RAW["raw-genomics-bucket (VCF, CRAM)"]
-		PROCESSED["processed-genomics-bucket (VCF.gz, QC reports)"]
-		DELIVERY["delivery-bucket (Partner Data)"]
+		RAW["raw-genomics-bucket<br>(VCF, CRAM)"]
+		PROCESSED["processed-genomics-bucket<br>(VCF.gz, QC reports)"]
+		DELIVERY["delivery-bucket<br>(Partner Data)"]
 	end
 
 	subgraph Lambda["Lambda Functions"]
-		VALIDATE["validation-handler\n(VCF/CRAM validation)"]
-		PROCESS["vcf-processor\n(Variant processing)"]
-		METRICS["quality-metrics\n(QC metrics)"]
-		METAUPD["metadata-updater\n(DynamoDB updates)"]
+		VALIDATE["validation-handler<br>(VCF/CRAM validation)<br><br><b>Bioinformatics Engineers</b>"]
+		PROCESS["vcf-processor<br>(Variant processing)<br><br><b>Bioinformaticians<br>Data Scientists</b>"]
+		METRICS["quality-metrics<br>(QC metrics)<br><br><b>Bioinformaticians<br>Data Scientists</b>"]
+		METAUPD["metadata-updater<br>(DynamoDB updates)<br><br><b>Data Stewards</b>"]
 	end
 
 	subgraph DDB["DynamoDB Tables"]
-		META["genomics-metadata\n(sample_id, file metadata)"]
-		JOBS["processing-jobs\n(job_id, status)"]
-		QC["quality-metrics\n(sample_id, QC results)"]
+		META["genomics-metadata<br>(sample_id, file metadata)<br><br><b>Project Managers<br>Data Stewards<br>Researchers</b>"]
+		JOBS["processing-jobs<br>(job_id, status)<br><br><b>Pipeline Operators<br>DevOps</b>"]
+		QC["quality-metrics<br>(sample_id, QC results)<br><br><b>Bioinformaticians<br>Researchers</b>"]
 	end
 
 	subgraph SFN["Step Functions Workflow"]
-		WORKFLOW["Genomics State Machine"]
+		WORKFLOW["Genomics State Machine<br><br><b>Pipeline Operators<br>DevOps</b>"]
+	end
+
+	subgraph EXT["External"]
+		PARTNERS["External Partners<br>Collaborators<br>Data Consumers"]
 	end
 
 	%% User Interactions
-	USER -->|"Upload VCF/CRAM"| UI
+	UPL -->|"Upload VCF/CRAM"| UI
 	UI -->|"Upload to S3"| RAW
 	UI -->|"Trigger Workflow"| WORKFLOW
 	UI <-->|"View Results / Download"| DELIVERY
 	UI <-->|"Check Status / QC"| META
 	UI <-->|"Check Status / QC"| QC
+	PARTNERS <-->|"Download Delivery Data"| DELIVERY
 
 	RAW --> VALIDATE
 	VALIDATE --> META
