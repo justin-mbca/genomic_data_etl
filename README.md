@@ -6,6 +6,9 @@ This project demonstrates a free-tier AWS genomics data engineering pipeline usi
 
 ```mermaid
 flowchart TD
+	USER["User / Researcher"]
+	UI["Web UI / CLI / API"]
+
 	subgraph S3["S3 Buckets"]
 		RAW["raw-genomics-bucket (VCF, CRAM)"]
 		PROCESSED["processed-genomics-bucket (VCF.gz, QC reports)"]
@@ -28,6 +31,14 @@ flowchart TD
 	subgraph SFN["Step Functions Workflow"]
 		WORKFLOW["Genomics State Machine"]
 	end
+
+	%% User Interactions
+	USER -->|"Upload VCF/CRAM"| UI
+	UI -->|"Upload to S3"| RAW
+	UI -->|"Trigger Workflow"| WORKFLOW
+	UI <-->|"View Results / Download"| DELIVERY
+	UI <-->|"Check Status / QC"| META
+	UI <-->|"Check Status / QC"| QC
 
 	RAW --> VALIDATE
 	VALIDATE --> META
