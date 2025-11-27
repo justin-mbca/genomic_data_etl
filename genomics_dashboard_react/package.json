@@ -1,0 +1,14 @@
+
+{
+  "name": "genomics-dashboard-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "scripts": {
+    "start": "npx serve -s build -l 3000",
+    "build": "npx babel src --out-dir build --presets=@babel/preset-react,@babel/preset-env"
+  }
+}
