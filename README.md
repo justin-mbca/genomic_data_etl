@@ -1,3 +1,45 @@
+# Senior Genomic Data Engineer Implementation Checklist
+
+- [ ] **Infrastructure as Code**
+	- [ ] Develop and maintain AWS CDK stacks (S3, Lambda, Step Functions, DynamoDB, IAM, networking)
+	- [ ] Enforce security best practices (least privilege, encryption, VPC)
+	- [ ] Implement lifecycle policies and cost controls
+
+- [ ] **Pipeline Automation**
+	- [ ] Build and optimize Lambda functions (validation, processing, QC metrics)
+	- [ ] Integrate external tools (bcftools, samtools, GATK)
+	- [ ] Design and implement Step Functions workflows (orchestration, error handling, retries)
+
+- [ ] **Data Modeling & Management**
+	- [ ] Design DynamoDB schemas (metadata, job tracking, QC results)
+	- [ ] Implement efficient data access patterns and indexing
+
+- [ ] **Testing & Quality Assurance**
+	- [ ] Develop unit, integration, and end-to-end tests
+	- [ ] Create mock services for local/CI testing
+	- [ ] Set up automated test pipelines (GitHub Actions)
+
+- [ ] **Monitoring, Logging & Cost Management**
+	- [ ] Implement logging, monitoring, and alerting (CloudWatch, custom metrics)
+	- [ ] Set up cost monitoring scripts and alerts
+	- [ ] Regularly review and optimize resource usage
+
+- [ ] **CI/CD & DevOps**
+	- [ ] Automate deployment (scripts, GitHub Actions)
+	- [ ] Implement rollback and approval mechanisms
+	- [ ] Maintain environment configuration (dev, staging, prod)
+
+- [ ] **Documentation & Training**
+	- [ ] Maintain up-to-date documentation (README, diagrams, code comments)
+	- [ ] Provide onboarding/training materials
+
+- [ ] **Security & Compliance**
+	- [ ] Ensure data privacy, access control, and compliance (e.g., HIPAA, GDPR)
+	- [ ] Audit IAM policies and data access logs
+
+- [ ] **Mentoring & Code Review**
+	- [ ] Review code, enforce best practices, mentor team
+	- [ ] Lead design and architecture reviews
 # Genomics Data Engineering Prototype
 
 This project demonstrates a free-tier AWS genomics data engineering pipeline using Python, AWS CDK, Lambda, S3, Step Functions, and DynamoDB.
