@@ -75,17 +75,20 @@ flowchart TD
 	SENG["<b>Senior Genomic Data Engineer</b><br>Designs, reviews, optimizes<br>all infrastructure & code"]
 
 	%% Upstream Genomics Pipeline
+
 	BCL["BCL (Sequencer Output)"]
-	BCL2FQ["bcl2fastq / DRAGEN<br>(BCL→FASTQ)"]
+	BCL2FQ["bcl2fastq / DRAGEN<br>(BCL→FASTQ)<br><i>Env: Local, HPC, Cloud VM, Batch, Platform</i>"]
 	FQ["FASTQ (Raw Reads)"]
-	ALIGN["BWA / Bowtie2 / STAR<br>(Alignment)"]
+	QC["QC/Trimming<br>(FastQC, Trimmomatic)<br><i>Env: Local, HPC, Cloud VM, Batch, Platform</i>"]
+	ALIGN["BWA / Bowtie2 / STAR<br>(Alignment)<br><i>Env: HPC, Cloud VM, Batch, Platform</i>"]
 	BAM["BAM (Aligned Reads)"]
 	CRAM["CRAM (Aligned Reads, Compressed)"]
-	VARCALL["GATK / FreeBayes / DeepVariant<br>(Variant Calling)"]
+	VARCALL["GATK / FreeBayes / DeepVariant<br>(Variant Calling)<br><i>Env: HPC, Cloud VM, Batch, Platform</i>"]
 	VCF["VCF (Variants)"]
 
+
 	BCL --> BCL2FQ --> FQ
-	FQ --> ALIGN --> BAM
+	FQ --> QC --> ALIGN --> BAM
 	BAM --> CRAM
 	BAM --> VARCALL
 	CRAM --> VARCALL
