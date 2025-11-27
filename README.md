@@ -6,15 +6,46 @@ This project demonstrates a free-tier AWS genomics data engineering pipeline usi
 
 ```mermaid
 flowchart TD
+
 	UPL["Researchers<br>Lab Technicians<br>Bioinformaticians"]
 	UI["Web UI / CLI / API"]
 	SENG["<b>Senior Genomic Data Engineer</b><br>Designs, reviews, optimizes<br>all infrastructure & code"]
 
+	%% Upstream Genomics Pipeline
+	BCL["BCL (Sequencer Output)"]
+	BCL2FQ["bcl2fastq / DRAGEN<br>(BCL→FASTQ)"]
+	FQ["FASTQ (Raw Reads)"]
+	ALIGN["BWA / Bowtie2 / STAR<br>(Alignment)"]
+	BAM["BAM (Aligned Reads)"]
+	CRAM["CRAM (Aligned Reads, Compressed)"]
+	VARCALL["GATK / FreeBayes / DeepVariant<br>(Variant Calling)"]
+	VCF["VCF (Variants)"]
+
+	BCL --> BCL2FQ --> FQ
+	FQ --> ALIGN --> BAM
+	BAM --> CRAM
+	BAM --> VARCALL
+	CRAM --> VARCALL
+	VARCALL --> VCF
+
+	%% S3 Buckets
 	subgraph S3["S3 Buckets"]
-		RAW["raw-genomics-bucket<br>(FASTQ, BAM, CRAM, VCF)"]
+		RAW["raw-genomics-bucket<br>(BCL, FASTQ, BAM, CRAM, VCF)"]
 		PROCESSED["processed-genomics-bucket<br>(VCF.gz, QC reports)"]
 		DELIVERY["delivery-bucket<br>(Partner Data)"]
 	end
+
+	%% Uploads to S3
+	UPL -->|"Upload BCL/FASTQ/BAM/CRAM/VCF"| UI
+	UI -->|"Upload to S3"| RAW
+
+	%% S3 stores all file types
+	BCL --> RAW
+	FQ --> RAW
+	BAM --> RAW
+	CRAM --> RAW
+	VCF --> RAW
+
 
 	subgraph Lambda["Lambda Functions"]
 		VALIDATE["validation-handler<br>(VCF/CRAM validation)<br><br><b>Bioinformatics Engineers</b>"]
@@ -38,8 +69,7 @@ flowchart TD
 	end
 
 	%% User Interactions
-	UPL -->|"Upload VCF/CRAM"| UI
-	UI -->|"Upload to S3"| RAW
+
 	UI -->|"Trigger Workflow"| WORKFLOW
 	UI <-->|"View Results / Download"| DELIVERY
 	UI <-->|"Check Status / QC"| META
@@ -72,15 +102,5 @@ flowchart TD
 	METAUPD --> META
 	WORKFLOW --> METRICS
 
-	%% Data Types
-	classDef dataType fill:#f9f,stroke:#333,stroke-width:1px;
-	VCF["VCF"]:::dataType
-	CRAM["CRAM"]:::dataType
-	QC_METRICS["QC Metrics"]:::dataType
-	VCF_GZ["VCF.gz"]:::dataType
-
-	RAW -.-> VCF
-	RAW -.-> CRAM
-	PROCESSED -.-> VCF_GZ
-	PROCESSED -.-> QC_METRICS
+	%% Data Types (removed isolated VCF/CRAM nodes)
 ```
