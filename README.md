@@ -11,7 +11,7 @@ flowchart TD
 	SENG["<b>Senior Genomic Data Engineer</b><br>Designs, reviews, optimizes<br>all infrastructure & code"]
 
 	subgraph S3["S3 Buckets"]
-		RAW["raw-genomics-bucket<br>(VCF, CRAM)"]
+		RAW["raw-genomics-bucket<br>(FASTQ, BAM, CRAM, VCF)"]
 		PROCESSED["processed-genomics-bucket<br>(VCF.gz, QC reports)"]
 		DELIVERY["delivery-bucket<br>(Partner Data)"]
 	end
